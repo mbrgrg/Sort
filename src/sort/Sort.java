@@ -15,7 +15,7 @@ public class Sort {
         try{
             Long start = System.currentTimeMillis();
             String inputfile =Utils.readLine("Insert file name,"
-                    + " with path if different from root app");
+                    + " with path if different from root app!");
             String outputfile = "result.txt";
             MAX_TEMP = Utils.readNumber("Insert max number of slice");
             List<File> file = sortInBatch(new File(inputfile));

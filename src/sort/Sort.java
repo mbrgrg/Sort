@@ -38,13 +38,21 @@ public class Sort {
     public static List<File> sortInBatch(File file) throws IOException {
         List<File> files = new ArrayList<>();
         BufferedReader fbr = new BufferedReader(new FileReader(file));
-        long blocksize = file.length() / MAX_TEMP;
+        //calcolo approssimato dei byte massimi per file
+        long blocksize = (file.length() / MAX_TEMP);
+        blocksize/=12;
         if(blocksize==0)
             blocksize=file.length();
+
+        long[] list=new long[1];
+        long []lista;
         int dim=0;
         String line = "";
-        long[] list = new long[(int)blocksize];
-        long []lista;
+        try{
+            list = new long[(int)blocksize];
+        }catch(Exception e){
+            System.err.println("Heap size error! Re-run with -Xmx command and set heap space");
+        }
         try {
             while(line != null) {
                 long blocksizecorrente = 0;
@@ -90,7 +98,7 @@ public class Sort {
         //Utils.printLine(Utils.Messages.ELAPSED_TIME_FILE, (System.currentTimeMillis() - startTime) / 1000);
         //startTime = System.currentTimeMillis();
         try(
-                BufferedWriter fbw = new BufferedWriter(new FileWriter(newtmpfile))) {
+            BufferedWriter fbw = new BufferedWriter(new FileWriter(newtmpfile))) {
             for(int i = 0; i<tmplist.length ; i++){
                 if(i!=tmplist.length){
                     fbw.write(new String(""+tmplist[i]));

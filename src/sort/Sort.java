@@ -1,21 +1,21 @@
 package sort;
- 
+
 import java.util.*;
 import java.io.*;
- 
+
 
 public class Sort {
-    
-    public static long startTime = System.currentTimeMillis(); 
+
+    public static long startTime = System.currentTimeMillis();
     public static int x=1; //contatore file totali che vengono ordinati
     public static int MAX_TEMP = 128; //max number of slice
-    
+
 
     public static void main(String[] args) throws IOException {
         try{
             Long start = System.currentTimeMillis();
             String inputfile =Utils.readLine("Insert file name,"
-                    + " with path if different from root app!");
+                    + " with path if different from root app");
             String outputfile = "result.txt";
             MAX_TEMP = Utils.readNumber("Insert max number of slice");
             List<File> file = sortInBatch(new File(inputfile));
@@ -31,8 +31,8 @@ public class Sort {
             System.err.println("File not exist!");
             main(args);
         }
-    }  
-    
+    }
+
     // Carica i file in blocchi di x righe, li ordina in memoria e
     // scrive i risultati in file temporanei che verranno poi fusi (merge)
     public static List<File> sortInBatch(File file) throws IOException {
@@ -48,8 +48,8 @@ public class Sort {
         try {
             while(line != null) {
                 long blocksizecorrente = 0;
-                while((blocksizecorrente < blocksize) 
-                &&(   (line = fbr.readLine()) != null) ){
+                while((blocksizecorrente < blocksize)
+                        &&(   (line = fbr.readLine()) != null) ){
                     list[dim] = Long.valueOf(line);
                     dim++;
                     blocksizecorrente ++;
@@ -67,18 +67,18 @@ public class Sort {
                 }
             }
         }catch(EOFException oef) {
-                if(list.length>0) {
-                    files.add(sortAndSave(list));
-                    list = new long[(int)blocksize];
-                }
+            if(list.length>0) {
+                files.add(sortAndSave(list));
+                list = new long[(int)blocksize];
+            }
         }finally {
             fbr.close();
         }
         return files;
-        }
-    
- 
- 
+    }
+
+
+
     public static File sortAndSave(long[]tmplist) throws IOException  {
         //startTime = System.currentTimeMillis();
         //System.out.println("Sort file "+x+" with "+tmplist.length+" number");
@@ -90,7 +90,7 @@ public class Sort {
         //Utils.printLine(Utils.Messages.ELAPSED_TIME_FILE, (System.currentTimeMillis() - startTime) / 1000);
         //startTime = System.currentTimeMillis();
         try(
-            BufferedWriter fbw = new BufferedWriter(new FileWriter(newtmpfile))) {
+                BufferedWriter fbw = new BufferedWriter(new FileWriter(newtmpfile))) {
             for(int i = 0; i<tmplist.length ; i++){
                 if(i!=tmplist.length){
                     fbw.write(new String(""+tmplist[i]));
@@ -104,8 +104,8 @@ public class Sort {
         return newtmpfile;
     }
 
- 
-    
+
+
 
     //Quick sort
     public static void QuickSort(long[]arr, int l, int h){
@@ -125,12 +125,12 @@ public class Sort {
                 stack[ ++top ] = p + 1;
                 stack[ ++top ] = h;
             }
-       }
-    }    
+        }
+    }
     public static int partition (long[]arr, int l, int h){
         long val = arr[h];
         int i = (l - 1);
- 
+
         for (int j = l; j <= h- 1; j++){
             if (arr[j] <= val){
                 i++;
